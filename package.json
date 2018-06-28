@@ -1,0 +1,22 @@
+{
+  "name": "bloccit",
+  "version": "1.0.0",
+  "description": "\"A Reddit-like application for users to discuss and share content\"",
+  "main": "(src/server.js)",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adahutchings/bloccit.git"
+  },
+  "keywords": [
+    "bloccit"
+  ],
+  "author": "Ada Hutchings",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adahutchings/bloccit/issues"
+  },
+  "homepage": "https://github.com/adahutchings/bloccit#readme"
+}
