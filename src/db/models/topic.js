@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     Topic.hasMany(models.Banner, {
       foreignKey: "topicId",
       as: "banners",
+    }),
+    Topic.hasMany(models.Rule, {
+      foreignKey: "topicIdRule",
+      as: "rules"
     });
   };
   return Topic;
