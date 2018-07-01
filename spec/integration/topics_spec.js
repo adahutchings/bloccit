@@ -11,7 +11,7 @@ describe("routes : topics", () => {
         sequelize.sync({force: true}).then((res) => {
             Topic.create({
                 title: "JS Frameworks",
-                description: "There are a lot of them"
+                description: "There is a lot of them"
             })
             .then((topic) => {
                 this.topic = topic;
@@ -55,8 +55,7 @@ describe("routes : topics", () => {
             }
         };
         it("should create a new topic and redirect", (done) => {
-            request.post(options,
-            (err, res, body) => {
+            request.post(options, (err, res, body) => {
                 Topic.findOne({where: {title: "blink-182 songs"}})
                 .then((topic) => {
                     expect(res.statusCode).toBe(303);
@@ -110,4 +109,29 @@ describe("routes : topics", () => {
             });
         });
     });
+
+    describe("POST /topics/:id/update", () => {
+        it("should update the topic with the given values", (done) => {
+            const options = {
+                url: `${base}$/{this.topic.id}/update`,
+                form: {
+                    title: "Javascript Frameworks",
+                    description: "There are a lot of them"
+                }
+            };
+            request.post(options, 
+                (err, res, body) => {
+
+                expect(err).toBeNull();
+
+                Topic.findOne({
+                    where: { id: this.topic.id }
+                })
+                .then((topic) => {
+                    expect(topic.title).toBe("JavaScript Frameworks");
+                    done();
+                });
+            });
+        });
+    }); 
 });
