@@ -55,21 +55,6 @@ describe("routes : topics", () => {
             }
         };
         it("should create a new topic and redirect", (done) => {
-<<<<<<< HEAD
-            request.post(options,
-            (err, res, body) => {
-                Topic.findOne({where: {title: "blink-182 songs"}})
-                .then((topic) => {
-                    expect(res.statusCode).toBe(303);
-                    expect(topic.title).toBe("blink-182 songs");
-                    expect(topic.description).toBe("What's your favorite blink-182 song?");
-                    done();
-                })
-                .catch((err) => {
-                    console.log(err);
-                    done();
-                });
-=======
             request.post(options, (err, res, body) => {
                 Topic.findOne({where: {title: "blink-182 songs"}})
             .then((topic) => {
@@ -82,7 +67,6 @@ describe("routes : topics", () => {
                 console.log(err);
                 done();
             });
->>>>>>> checkpoint-6-version2
             });
         });
     });
@@ -97,31 +81,19 @@ describe("routes : topics", () => {
         });
     });
 
-<<<<<<< HEAD
-    describe("GET /topics/:id/destroy", () => {
-=======
     describe("POST /topics/:id/destroy", () => {
->>>>>>> checkpoint-6-version2
         it("should delete the topic with the associated ID", (done) => {
             Topic.all()
             .then((topics) => {
                 const topicCountBeforeDelete = topics.length;
-<<<<<<< HEAD
-                expect(topicCountBeforeDelete).toBe(1);
-=======
                 
                 expect(topicCountBeforeDelete).toBe(1);
 
->>>>>>> checkpoint-6-version2
                 request.post(`${base}/${this.topic.id}/destroy`, (err, res, body) => {
                     Topic.all()
                     .then((topics) => {
                         expect(err).toBeNull();
-<<<<<<< HEAD
-                        expect(topics.length).toBe(topicCountBeforeDelete -1);
-=======
                         expect(topics.length).toBe(topicCountBeforeDelete - 1);
->>>>>>> checkpoint-6-version2
                         done();
                     })
                 });
@@ -139,8 +111,6 @@ describe("routes : topics", () => {
             });
         });
     });
-<<<<<<< HEAD
-=======
 
     describe("POST /topics/:id/update", () => {
         it("should update the topic with the given values", (done) => {
@@ -164,5 +134,4 @@ describe("routes : topics", () => {
         });
     });
 
->>>>>>> checkpoint-6-version2
 });
