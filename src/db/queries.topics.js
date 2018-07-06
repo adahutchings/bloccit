@@ -19,19 +19,31 @@ module.exports = {
             callback(null, topic);
         })
         .catch((err) => {
+<<<<<<< HEAD
             console.log(err);
         })
     },
     getTopic(id, callback) {
+=======
+            callback(err);
+        })
+    },
+    getTopic(id, callback){
+>>>>>>> checkpoint-6-version2
         return Topic.findById(id)
         .then((topic) => {
             callback(null, topic);
         })
+<<<<<<< HEAD
         .catch((err) => {
             console.log(err);
         })
     }, 
     deleteTopic(id, callback) {
+=======
+    },
+    deleteTopic(id, callback){
+>>>>>>> checkpoint-6-version2
         return Topic.destroy({
             where: {id}
         })
@@ -39,7 +51,30 @@ module.exports = {
             callback(null, topic);
         })
         .catch((err) => {
+<<<<<<< HEAD
             console.log(err);
         })
     },
+=======
+            callback(err);
+        })
+    },
+    updateTopic(id, updatedTopic, callback){
+        return Topic.findById(id)
+        .then((topic) => {
+            if(!topic){
+                return callback("Topic not found");
+            }
+            topic.update(updatedTopic, {
+                fields: Object.keys(updatedTopic)
+            })
+            .then(() => {
+                callback(null, topic);
+            })
+            .catch((err) => {
+                callback(err);
+            });
+        });
+    }
+>>>>>>> checkpoint-6-version2
 }

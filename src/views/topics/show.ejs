@@ -8,6 +8,7 @@
 
     <main class="container">
       <h1><%= topic.title %></h1>
+<<<<<<< HEAD
 
       <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
 
@@ -15,6 +16,12 @@
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
 
+=======
+      <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
+      <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+>>>>>>> checkpoint-6-version2
       <p><%= topic.description %></p>
     </main>
 
