@@ -37,7 +37,7 @@ describe("routes : adverts", () => {
     });
 
     describe("GET /adverts/new", () => {
-        it("should render a new advert"), (done => {
+        it("should render a new advert", (done) => {
             request.get(`${base}/new`, (err, res, body) => {
                 expect(err).toBeNull();
                 expect(body).toContain("New Advertisement");
