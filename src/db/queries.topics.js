@@ -19,31 +19,16 @@ module.exports = {
             callback(null, topic);
         })
         .catch((err) => {
-<<<<<<< HEAD
-            console.log(err);
-        })
-    },
-    getTopic(id, callback) {
-=======
             callback(err);
         })
     },
     getTopic(id, callback){
->>>>>>> checkpoint-6-version2
         return Topic.findById(id)
         .then((topic) => {
             callback(null, topic);
         })
-<<<<<<< HEAD
-        .catch((err) => {
-            console.log(err);
-        })
-    }, 
-    deleteTopic(id, callback) {
-=======
     },
     deleteTopic(id, callback){
->>>>>>> checkpoint-6-version2
         return Topic.destroy({
             where: {id}
         })
@@ -51,11 +36,6 @@ module.exports = {
             callback(null, topic);
         })
         .catch((err) => {
-<<<<<<< HEAD
-            console.log(err);
-        })
-    },
-=======
             callback(err);
         })
     },
@@ -76,5 +56,4 @@ module.exports = {
             });
         });
     }
->>>>>>> checkpoint-6-version2
 }
