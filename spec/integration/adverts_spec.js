@@ -71,4 +71,14 @@ describe("routes : adverts", () => {
             });
         });
     });
+
+    describe("GET /adverts/:id", () => {
+        it("should render a view with the selected advert", (done) => {
+            request.get(`${base}/${this.advert.id}`, (err, res, body) => {
+                expect(err).toBeNull()
+                expect(body).toContain("This is an Advertisement");
+                done();
+            });
+        });
+    });
 });

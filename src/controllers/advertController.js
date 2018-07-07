@@ -14,6 +14,7 @@ module.exports = {
         res.render("adverts/new");
     },
     create(req, res, next){
+        
         let newAdvert = {
             title: req.body.title,
             description: req.body.description
@@ -23,6 +24,15 @@ module.exports = {
                 res.redirect(500, "/adverts/new");
             } else {
                 res.redirect(303, `/adverts/${advert.id}`);
+            }
+        });
+    },
+    show(req, res, next){
+        advertQueries.getAdvert(req.params.id, (err, advert) => {
+            if(err || advert == null){
+                res.redirect(404, "/");
+            } else {
+                res.render("adverts/show", {advert});
             }
         });
     },
