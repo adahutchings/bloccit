@@ -36,4 +36,31 @@ module.exports = {
             }
         });
     },
+    destroy(req, res, next){
+        advertQueries.deleteAdvert(req.params.id, (err, advert) => {
+            if(err){
+                res.redirect(500, `/adverts/${advert.id}`);
+            } else {
+                res.redirect(303, "/adverts");
+            }
+        });
+    },
+    edit(req, res, next){
+        advertQueries.getAdvert(req.params.id, (err, advert) => {
+            if(err || advert == null){
+                res.redirect(404, "/");
+            } else {
+                res.render("adverts/edit", {advert});
+            }
+        });
+    },
+    update(req, res, next){
+        advertQueries.updateAdvert(req.params.id, req.body, (err, advert) => {
+            if(err || advert == null){
+                res.redirect(404, `/adverts/${req.params.id}/edit`);
+            } else {
+                res.redirect(`/adverts/${advert.id}`);
+            }
+        });
+    }
 }

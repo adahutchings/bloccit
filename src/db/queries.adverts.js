@@ -31,4 +31,32 @@ module.exports = {
             callback(err);
         })
     },
+    deleteAdvert(id, callback){
+        return Advert.destroy({
+            where: {id}
+        })
+        .then((advert) => {
+            callback(null, advert);
+        })
+        .catch((err) => {
+            callback(err);
+        })
+    },
+    updateAdvert(id, updatedAdvert, callback){
+        return Advert.findById(id)
+        .then((advert) => {
+            if(!advert){
+                return callback("Advert not found");
+            }
+            advert.update(updatedAdvert, {
+                fields: Object.keys(updatedAdvert)
+            })
+            .then(() => {
+                callback(null, advert);
+            })
+            .catch((err) => {
+                callback(err);
+            });
+        });
+    },
 }

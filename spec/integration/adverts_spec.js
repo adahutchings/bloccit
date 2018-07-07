@@ -81,4 +81,55 @@ describe("routes : adverts", () => {
             });
         });
     });
+
+    describe("POST /adverts/:id/destroy", () => {
+        it("should delete the advert with the associated id", (done) => {
+            Advert.all()
+            .then((adverts) => {
+                const advertCountBeforeDelete = adverts.length;
+                expect(advertCountBeforeDelete).toBe(1);
+                request.post(`${base}/${this.advert.id}/destroy`, (err, res, body) => {
+                    Advert.all()
+                    .then((adverts) => {
+                        expect(err).toBeNull();
+                        expect(adverts.length).toBe(advertCountBeforeDelete - 1);
+                        done();
+                    })
+                });
+            });
+        });
+    });
+
+    describe("GET /adverts/:id/edit", () => {
+        it("should render a view with an edit advert form", (done) => {
+            request.get(`${base}/${this.advert.id}/edit`, (err, res, body) => {
+                expect(err).toBeNull();
+                expect(body).toContain("Edit Advertisement");
+                expect(body).toContain("This is an Advertisement");
+                done();
+            });
+        });
+    });
+
+    describe("GET /adverts/:id/update", () => {
+        it("should update the advert with the given values", (done) => {
+            const options = {
+                url: `${base}/${this.advert.id}/update`,
+                form: {
+                    title: "This is an Advertisement",
+                    description: "We want you to buy something"
+                }
+            };
+            request.post(options, (err, res, body) => {
+                expect(err).toBeNull();
+                Advert.findOne({
+                    where: { id: this.advert.id}
+                })
+                .then((advert) => {
+                    expect(advert.title).toBe("This is an Advertisement");
+                    done();
+                });
+            });
+        });
+    });
 });
