@@ -2,7 +2,7 @@ const flairQueries = require("../db/queries.flairs.js");
 
 module.exports = {
     new(req, res, next){
-        res.render("flairs/new", {topicId: req.params.topicID, postId: req.params.postId});
+        res.render("flairs/new", {topicId: req.params.topicId, postId: req.params.postId});
     },
     create(req, res, next){
         let newFlair = {
@@ -15,6 +15,7 @@ module.exports = {
             if(err){
                 res.redirect(500, "flairs/new");
             } else {
+                console.log("create pass");
                 res.redirect(303, `/topics/${newFlair.topicId}/posts/${newFlair.postId}/flairs/${flair.id}`);
             }
         });

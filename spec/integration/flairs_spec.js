@@ -85,7 +85,7 @@ describe("routes : flair", () => {
         });
     });
 
-    describe("GET /posts/:postId/flairs/:id", () => {
+    describe("GET /posts/:postId/flair/:id", () => {
         it("should render a view with the selected flair", (done) => {
             request.get(`${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}`, (err, res, body) => {
                 expect(err).toBeNull();
