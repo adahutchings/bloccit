@@ -89,8 +89,68 @@ describe("routes : flair", () => {
         it("should render a view with the selected flair", (done) => {
             request.get(`${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}`, (err, res, body) => {
                 expect(err).toBeNull();
-                expect(body).toContain("Purple");
+                expect(body).toContain("green");
                 done();
+            });
+        });
+    });
+
+    describe("POST /posts/:postId/flair/:id/destroy", () => {
+        it("should delete the flair with the associated id", (done) => {
+            expect(this.flair.id).toBe(1);
+
+            request.post(`${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}/destroy`, (err, res, body) => {
+                Flair.findById(1)
+                .then((flair) => {
+                    expect(err).toBeNull();
+                    expect(flair).toBeNull();
+                    done();
+                })
+            });
+        });
+    });
+
+    describe("GET /posts/:postId/flair/:id/edit", () => {
+        it("should render a veiw with an edit post form", (done) => {
+            request.get(`${base}/${this.topic.id}/posts/${this.postId}/flairs/${this.flair.id}/edit`, (err, res, body) => {
+                expect(err).toBeNull();
+                expect(body).toContain("Edit Flair");
+                expect(body).toContain("green");
+                done();
+            });
+        });
+    });
+
+    describe("POST /posts/:postId/flair/:id/update", () => {
+        it("should return a status code 302", (done) => {
+            request.post({
+                url: `${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}/update`,
+                form: {
+                    name: "Update this flair",
+                    color: "Pink"
+                }
+            }, (err, res, body) => {
+                expect(res.statusCode).toBe(302);
+                done();
+            });
+        });
+
+        it("should update the flair with the given values", (done) => {
+            const options = {
+                url: `${base}/${this.topic.id}/posts/${this.post.id}/flairs/${this.flair.id}/update`,
+                form: {
+                    name: "Update this flairrrr",
+                }
+            };
+            request.post(options, (err, res, body) => {
+                expect(err).toBeNull();
+                Flair.findOne({
+                    where: {id: this.flair.id}
+                })
+                .then((flair) => {
+                    expect(flair.name).toBe("Update this flairrrr");
+                    done();
+                });
             });
         });
     });
