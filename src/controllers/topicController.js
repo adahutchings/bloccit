@@ -23,7 +23,8 @@ module.exports = {
     },
     create(req, res, next) {
         const authorized = new Authorizer(req.user).create();
-
+        console.log(authorized);
+        console.log(req.user);
         if(authorized) {
             let newTopic = {
                 title: req.body.title,
