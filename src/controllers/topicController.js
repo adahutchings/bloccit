@@ -13,8 +13,10 @@ module.exports = {
     },
     new(req, res, next) {
         const authorized = new Authorizer(req.user).new();
-
+        console.log(req.user);
+        console.log(authorized);
         if(authorized) {
+            
             res.render("topics/new");
         } else {
             req.flash("notice", "You are not authorized to do that.");
@@ -23,6 +25,7 @@ module.exports = {
     },
     create(req, res, next) {
         const authorized = new Authorizer(req.user).create();
+
         console.log(authorized);
         console.log(req.user);
         if(authorized) {
