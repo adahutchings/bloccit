@@ -1,6 +1,4 @@
 const Post = require("./models").Post;
-const Topic = require("./models").Topic;
-const postQueries = require("../db/queries.posts.js");
 const Authorizer = require("../policies/post");
 
 module.exports = {
