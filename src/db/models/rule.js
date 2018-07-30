@@ -1,7 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Rule = sequelize.define('Rule', {
-    source: DataTypes.STRING,
     description: DataTypes.STRING,
     topicIdRule: {
       type: DataTypes.INTEGER,
