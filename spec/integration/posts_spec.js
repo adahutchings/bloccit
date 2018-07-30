@@ -140,13 +140,13 @@ describe("routes : posts", () => {
     });  
   });
 
-  //MEMEBER USER
+  //MEMBER USER
   describe("Member user performing CRUD actions for posts", () => {
     beforeEach((done) => {
       User.create({
         email: "member@member.com",
         password: "iammember",
-        role: "memeber"
+        role: "member"
       })
       .then((user) => {
         request.get({
@@ -180,7 +180,7 @@ describe("routes : posts", () => {
             form: {
                 title: "Watching snow melt",
                 body: "Without a doubt my favorite thing to do besides watching paint dry!",
-                userId: this.user.id
+                //userId: this.user.id
             }
         };
         request.post(options,
@@ -192,7 +192,7 @@ describe("routes : posts", () => {
                 expect(post.body).toBe("Without a doubt my favorite thing to do besides watching paint dry!");
                 expect(post.topicId).not.toBeNull();
                 done();
-            })
+            }) 
             .catch((err) => {
                 console.log(err);
                 done();
@@ -234,7 +234,7 @@ describe("routes : posts", () => {
     });
 
     describe("POST /topics/topicId/posts/:id/destroy", () => {
-      it("should not delete the post with the associated Id", () => {
+      it("should not delete the post with the associated Id", (done) => {
         Post.all()
         .then((posts) => {
           const postCountBeforeDelete = posts.length;
@@ -243,7 +243,7 @@ describe("routes : posts", () => {
 
           request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
             Post.all()
-            .then((posts) => {
+            .then((post) => {
               expect(post.length).toBe(postCountBeforeDelete);
               done();
             })
