@@ -1,4 +1,6 @@
 const Post = require("./models").Post;
+const Comment = require("./models").Comment;
+const User = require("./models").User;
 const Authorizer = require("../policies/post");
 
 module.exports = {
@@ -12,7 +14,13 @@ module.exports = {
         })
     },
     getPost(id, callback){
-        return Post.findById(id)
+        return Post.findById(id, {
+            include: [
+              {model: Comment, as: "comments", include: [
+                {model: User }
+              ]}
+            ]
+          })
         .then((post) => {
             callback(null, post);
         })
@@ -26,7 +34,6 @@ module.exports = {
             const authorized = new Authorizer(req.user, post).destroy();
             
             if(authorized) {
-                console.log(this.user);
                 post.destroy()
                 .then((res) => {
                     callback(null, post);
