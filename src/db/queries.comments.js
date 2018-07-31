@@ -1,7 +1,6 @@
 const Comment = require("./models").Comment;
 const Post = require("./models").Post;
 const User = require("./models").User;
-
 const Authorizer = require("../policies/comment");
 
 module.exports = {
@@ -28,7 +27,7 @@ module.exports = {
         callback(null, comment)
       } else {
         req.flash("notice", "You are not authorized to do that.")
-        callback(401)
+        callback(401);
       }
     })
   }

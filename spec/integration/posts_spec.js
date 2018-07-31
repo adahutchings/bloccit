@@ -254,7 +254,7 @@ describe("routes : posts", () => {
 
     describe("POST /topics/topicId/posts/:id/edit", () => {
       it("should not render a view of the edit post form", (done) => {
-        request.get(`${base}/${this.topic.id}/posts/$this.post.id}/edit`, (err, res, body) => {
+        request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
           expect(body).not.toContain("Edit Post");
           done();
       });
@@ -358,7 +358,7 @@ describe("routes : posts", () => {
           });
       });
   
-      describe("POST /topics/topicId/posts/:id/destroy", () => {
+      describe("POST /topics/:topicId/posts/:id/destroy", () => {
         it("should delete the post with the associated ID", (done) => {
             expect(this.post.id).toBe(1);
             request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {

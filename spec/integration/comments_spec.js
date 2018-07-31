@@ -49,8 +49,8 @@ describe("routes : comments", () => {
             userId: this.user.id,          
             postId: this.post.id
           })
-          .then((coment) => {
-            this.comment = coment;             // store comment
+          .then((comment) => {
+            this.comment = comment;             // store comment
             done();
           })
           .catch((err) => {
@@ -135,22 +135,29 @@ describe("routes : comments", () => {
          });
        });
        
-       //SIGNED IN USER
-       describe("signed in user performing CRUD actions for Comment", () => {
+       //MEMBER USER
+       describe("member user performing CRUD actions for Comment", () => {
 
-        beforeEach((done) => {    // before each suite in this context
-          request.get({           // mock authentication
-            url: "http://localhost:3000/auth/fake",
-            form: {
-              role: "member",     // mock authenticate as member user
-              userId: this.user.id
-            }
-          },
-            (err, res, body) => {
-              done();
-            }
-          );
-        });
+        beforeEach((done) => {
+          User.create({
+            email: "member@member.com",
+            password: "iammember",
+            role: "member"
+          })
+          .then((user) => {
+            request.get({           
+              url: "http://localhost:3000/auth/fake",
+              form: {
+                role: user.role,     
+                userId: user.id,
+                email: user.email
+              }
+            },
+              (err, res, body) => {
+                done();
+              });
+            });
+          });
    
         describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
    
@@ -181,7 +188,64 @@ describe("routes : comments", () => {
    
         describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
    
-          it("should delete the comment with the associated ID", (done) => {
+          it("should not delete the comment with the associated ID", (done) => {
+            Comment.all()
+            .then((comments) => {
+              const commentCountBeforeDelete = comments.length;
+   
+              expect(commentCountBeforeDelete).toBe(1);
+   
+              request.post(
+               `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+                (err, res, body) => {
+                Comment.all()
+                .then((comments) => {
+                  expect(comments.length).toBe(commentCountBeforeDelete);
+                  done();
+                })
+   
+              });
+            })
+   
+          });
+   
+        });
+
+        describe("POST /topics/:topicId/posts/:postId/comments/:id/edit", () => {
+          it("should not render a view of the edit commennt form", (done) => {
+            request.get(`${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/edit`, (err, res, body) => {
+              expect(body).not.toContain("Edit Comment");
+              done();
+            })
+          })
+        })
+   
+      }); //end context for signed in user
+
+      //ADMIN
+      describe("ADMIN performing CRUD actions on comments", () => {
+        beforeEach((done) => {
+          User.create({
+            email: "admin@admin.com",
+            password: "iamadmin",
+            role: "admin"
+          })
+          .then((user) => {
+            request.get({
+              url: "http://localhost:3000/auth/fake",
+              form: {
+                role: user.role,
+                userId: user.id,
+                email: user.email
+              }
+            }, (err, res, body) => {
+              done();
+            });
+          });
+        });
+
+        describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+          it("should delete the comment with the associated Id", (done) => {
             Comment.all()
             .then((comments) => {
               const commentCountBeforeDelete = comments.length;
@@ -197,15 +261,11 @@ describe("routes : comments", () => {
                   expect(err).toBeNull();
                   expect(comments.length).toBe(commentCountBeforeDelete - 1);
                   done();
-                })
-   
-              });
-            })
-   
+              })
+            });
           });
-   
         });
-   
-      }); //end context for signed in user
+      });
+    });
    
     });
