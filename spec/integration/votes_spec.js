@@ -1,7 +1,7 @@
 // #1
 const request = require("request");
 const server = require("../../src/server");
-const base = "http://localhost:3000/topics/";
+const base = "http://localhost:3000/topics";
 
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
@@ -76,7 +76,7 @@ describe("routes : votes", () => {
 
       it("should not create a new vote", (done) => {
         const options = {
-          url: `${base}${this.topic.id}/posts/${this.post.id}/votes/upvote`
+          url: `${base}/${this.topic.id}/posts/${this.post.id}/votes/upvote`
         };
         request.get(options,
           (err, res, body) => {
@@ -121,17 +121,22 @@ describe("routes : votes", () => {
 
       it("should create an upvote", (done) => {
         const options = {
-          url: `${base}${this.topic.id}/posts/${this.post.id}/votes/upvote`
+          url: `${base}/${this.topic.id}/posts/${this.post.id}/votes/upvote`
         };
         request.get(options,
           (err, res, body) => {
+            
             Vote.findOne({          
               where: {
                 userId: this.user.id,
                 postId: this.post.id
               }
             })
-            .then((vote) => { 
+            .then((vote) => {
+                console.log("BODY: " + body);
+                console.log("VOTE: " + vote);
+                console.log("USER ID: " + this.user.id);
+                console.log("POST ID: " + this.post.id);
               expect(vote).not.toBeNull();
               expect(vote.value).toBe(1);
               expect(vote.userId).toBe(this.user.id);
@@ -151,7 +156,7 @@ describe("routes : votes", () => {
 
       it("should create a downvote", (done) => {
         const options = {
-          url: `${base}${this.topic.id}/posts/${this.post.id}/votes/downvote`
+          url: `${base}/${this.topic.id}/posts/${this.post.id}/votes/downvote`
         };
         request.get(options,
           (err, res, body) => {
@@ -162,6 +167,9 @@ describe("routes : votes", () => {
               }
             })
             .then((vote) => {
+                console.log("BODY: " + body);
+                console.log("USER ID: " + this.user.id);
+                console.log("POST ID: " + this.post.id);
               expect(vote).not.toBeNull();
               expect(vote.value).toBe(-1);
               expect(vote.userId).toBe(this.user.id);
