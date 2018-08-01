@@ -120,6 +120,7 @@ describe("routes : votes", () => {
     describe("GET /topics/:topicId/posts/:postId/votes/upvote", () => {
 
       it("should create an upvote", (done) => {
+        const temp = "upvote"
         const options = {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/votes/upvote`
         };
@@ -133,10 +134,7 @@ describe("routes : votes", () => {
               }
             })
             .then((vote) => {
-                console.log("BODY: " + body);
-                console.log("VOTE: " + vote);
-                console.log("USER ID: " + this.user.id);
-                console.log("POST ID: " + this.post.id);
+                
               expect(vote).not.toBeNull();
               expect(vote.value).toBe(1);
               expect(vote.userId).toBe(this.user.id);
@@ -155,6 +153,7 @@ describe("routes : votes", () => {
     describe("GET /topics/:topicId/posts/:postId/votes/downvote", () => {
 
       it("should create a downvote", (done) => {
+
         const options = {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/votes/downvote`
         };
@@ -167,9 +166,6 @@ describe("routes : votes", () => {
               }
             })
             .then((vote) => {
-                console.log("BODY: " + body);
-                console.log("USER ID: " + this.user.id);
-                console.log("POST ID: " + this.post.id);
               expect(vote).not.toBeNull();
               expect(vote.value).toBe(-1);
               expect(vote.userId).toBe(this.user.id);
