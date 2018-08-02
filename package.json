@@ -8,6 +8,7 @@
     "testtopics": "export NODE_ENV=test && jasmine spec/integration/topics_spec.js", 
     "testposts": "export NODE_ENV=test && jasmine spec/integration/posts_spec.js", 
     "testvotes": "export NODE_ENV=test && jasmine spec/integration/votes_spec.js",
+    "testfavs": "export NODE_ENV=test && jasmine spec/integration/favorites_spec.js",
     "start": "node src/server.js"
   },
   "repository": {

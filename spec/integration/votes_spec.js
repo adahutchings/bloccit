@@ -13,13 +13,11 @@ describe("routes : votes", () => {
 
   beforeEach((done) => {
 
- // #2
     this.user;
     this.topic;
     this.post;
     this.vote;
 
- // #3
     sequelize.sync({force: true}).then((res) => {
       User.create({
         email: "starman@tesla.com",
@@ -57,12 +55,12 @@ describe("routes : votes", () => {
 
   describe("guest attempting to vote on a post", () => {
 
-    beforeEach((done) => {    // before each suite in this context
+    beforeEach((done) => {  
       request.get({
         url: "http://localhost:3000/auth/fake",
         form: {
             role: "guest",
-            userId: 0 // ensure no user in scope
+            userId: 0 
         }
       },
         (err, res, body) => {
@@ -80,7 +78,7 @@ describe("routes : votes", () => {
         };
         request.get(options,
           (err, res, body) => {
-            Vote.findOne({            // look for the vote, should not find one.
+            Vote.findOne({           
               where: {
                 userId: this.user.id,
                 postId: this.post.id
@@ -103,11 +101,11 @@ describe("routes : votes", () => {
 
   describe("signed in user voting on a post", () => {
 
-    beforeEach((done) => {  // before each suite in this context
-        request.get({         // mock authentication
+    beforeEach((done) => {  
+        request.get({        
           url: "http://localhost:3000/auth/fake",
           form: {
-            role: "member",     // mock authenticate as member user
+            role: "member",    
             userId: this.user.id
           }
         },
